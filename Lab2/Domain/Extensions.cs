@@ -18,7 +18,7 @@ public static class Extensions
     }
     
     public static IEnumerable<IEnumerable<T>> GetCombinations<T>(
-        IEnumerable<T>? _array, List<T> combinations, int k, int start)
+        IEnumerable<T>? _array, List<T> combinations, int start, int k)
     {
         List<IEnumerable<T>> result = new List<IEnumerable<T>>();
         
@@ -31,7 +31,7 @@ public static class Extensions
             for (var i = start; i < _array.Count(); i++)
             {
                 combinations.Add(_array.ElementAt(i)); // ElementAt - возвращает элемент по указанному индексу в последовательности.
-                result.AddRange(GetCombinations(_array, combinations, k, i)); // AddRange - добавляет элементы указанной коллекции в конец списка List<T>
+                result.AddRange(GetCombinations(_array, combinations, i, k)); // AddRange - добавляет элементы указанной коллекции в конец списка List<T>
                 combinations.RemoveAt(combinations.Count - 1); // RemoveAt - удаляет элемент списка List<T> с указанным индексом.
             }
         }
@@ -59,7 +59,7 @@ public static class Extensions
 
         CheckingElements(array, comparer);
 
-        return GetCombinations(array, new List<T>(), k, 0);
+        return GetCombinations(array, new List<T>(), 0, k);
     }
 
     public static IEnumerable<IEnumerable<T>> GetSubsets<T>(
