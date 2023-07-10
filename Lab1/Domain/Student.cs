@@ -1,7 +1,5 @@
 ﻿namespace Domain;
 public class Student:
-    IEquatable<string>,
-    IEquatable<int>,
     IEquatable<Student>,
     IEquatable<object>
 {
@@ -99,16 +97,6 @@ public class Student:
         }
 
         return false;
-    }
-    
-    public bool Equals(string @string)
-    {
-        return StringValue.Equals(@string);
-    }
-
-    public bool Equals(int @int)
-    {
-        return IntValue.Equals(@int);
     }
 
     public bool Equals(Student? obj)

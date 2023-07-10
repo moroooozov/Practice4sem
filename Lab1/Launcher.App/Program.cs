@@ -12,7 +12,7 @@ namespace Launcher.App
 
             var course = obj.GetCourseFromGroup();
 
-            var flag = course.GetHashCode();
+            var flag = course.Equals(course);
             
             Console.WriteLine($"{course} {flag}");
         }
