@@ -7,13 +7,13 @@ namespace Domain;
 public static class Extensions
 {
     
-    private static void ThrowIfNotDistinct<T>(
+    private static void CheckingElements<T>(
         this IEnumerable<T> values,
         IEqualityComparer<T> equalityComparer)
     {
         if (values.Distinct(equalityComparer).Count() != values.Count())
         {
-            throw new ArgumentException("ThrowIfNotDistinct: Elements are repeated.", nameof(values));
+            throw new ArgumentException("Elements are repeated", nameof(values));
         }
     }
     
@@ -57,7 +57,7 @@ public static class Extensions
             throw new ArgumentException(null, nameof(array));
         }
 
-        ThrowIfNotDistinct(array, comparer);
+        CheckingElements(array, comparer);
 
         return GetCombinations(array, new List<T>(), k, 0);
     }
@@ -97,7 +97,7 @@ public static class Extensions
             throw new ArgumentNullException(nameof(comparer));
         }
         
-        ThrowIfNotDistinct(array, comparer);
+        CheckingElements(array, comparer);
 
         return GetSubsets(array);
     }
@@ -140,7 +140,7 @@ public static class Extensions
             throw new ArgumentNullException(nameof(comparer));
         }
         
-        ThrowIfNotDistinct(array, comparer);
+        CheckingElements(array, comparer);
 
         return GetPermutations(array);
     }

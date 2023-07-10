@@ -12,10 +12,10 @@ namespace Launcher.App
                 2,
                 Comparer<int>.Instance);
             var subsets = Extensions.GenerateSubsets(
-                new List<int>() {1, 2},
+                new List<int>() {1, 2, 3},
                 Comparer<int>.Instance);
             var permutations = Extensions.GeneratePermutations(
-                new List<int>() {1, 2, 3},
+                new List<int>() {1, 2, 3, 4},
                 Comparer<int>.Instance);
 
             foreach (var combination in combinations)
