@@ -1,7 +1,5 @@
 ﻿namespace Domain;
-public class Student:
-    IEquatable<Student>,
-    IEquatable<object>
+public class Student : IEquatable<Student>
 {
     private readonly string _name;
     private readonly string _surname;
@@ -23,117 +21,50 @@ public class Student:
         Console.WriteLine($"Name: {_name}\nSurname: {_surname}\nPatronymic: {_patronymic}\nStudy Group: {_studyGroup}\nPractice course: {_practiceCourse}\n");
     }
 
-    public string GetName()
-    {
-        return _name;
-    }
+    public string GetName => _name;
 
-    public string GetSurame()
+    public string GetSurname => _surname;
+
+    public string GetPatronymic => _patronymic;
+
+    public string GetStudyGroup => _studyGroup;
+
+    public string GetPracticecourse => _practiceCourse;
+
+    public int GetCourseFromGroup => _studyGroup[4] - '0';
+    
+    public bool Equals(
+        Student? obj)
     {
-        return _surname;
+        if (obj == null) { return false; }
+
+        return _surname.Equals(obj._surname) &&
+               _name.Equals(obj._name) &&
+               _patronymic.Equals(obj._patronymic) &&
+               _studyGroup.Equals(obj._studyGroup) &&
+               _practiceCourse.Equals(obj._practiceCourse);
     }
     
-    public string GetPatronymic()
+    public override bool Equals(
+        object? obj)
     {
-        return _patronymic;
-    }
-    
-    public string GetStudyGroup()
-    {
-        return _studyGroup;
-    }
-    
-    public string GetPracticecourse()
-    {
-        return _practiceCourse;
-    }
+        if (obj == null) { return false; }
 
-    public string GetCourseFromGroup()
-    {
-        return _studyGroup.Substring(4, 1);
-    }
+        if (obj is Student student)
+        {
+            return _surname.Equals(student._surname) && 
+                   _name.Equals(student._name) &&
+                   _patronymic.Equals(student._patronymic) &&
+                   _studyGroup.Equals(student._studyGroup) &&
+                   _practiceCourse.Equals(student._practiceCourse);
+        }
 
-    public int IntValue
-    {
-        get;
-    }
-    
-    public int StringValue
-    {
-        get;
-    }
-
-    public override string ToString()
-    {
-        return $"[ StringValue: {StringValue}, IntValue: {IntValue} ]";
+        return false;
     }
     
     public override int GetHashCode()
     {
-        return StringValue.GetHashCode() * 23 + IntValue.GetHashCode();
-    }
-
-    public override bool Equals(object? obj)
-    {
-        Console.WriteLine("object.Equals called");
-        
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (obj is Student student)
-        {
-            return Equals(student);
-        }
-        if (obj is string @string)
-        {
-            return Equals(@string);
-        }
-
-        if (obj is int @int)
-        {
-            return Equals(@int);
-        }
-
-        return false;
-    }
-
-    public bool Equals(Student? obj)
-    {
-        if (obj == null)
-        {
-            return false;
-        }
-        
-        return IntValue == obj.IntValue
-               && StringValue.Equals(obj.StringValue);
-    }
-
-    bool IEquatable<object>.Equals(object? obj)
-    {
-        Console.WriteLine("IEquatable<object>.Equals called");
-        
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (obj is Student student)
-        {
-            return Equals(student);
-        }
-        if (obj is string @string)
-        {
-            return Equals(@string);
-        }
-
-        if (obj is int @int)
-        {
-            return Equals(@int);
-        }
-
-        return false;
+        return HashCode.Combine(_surname, _name, _patronymic, _studyGroup, _practiceCourse);
     }
     
 }

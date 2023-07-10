@@ -10,11 +10,15 @@ namespace Launcher.App
             
             obj.PrintFullData();
 
-            var course = obj.GetCourseFromGroup();
+            var patronymic = obj.GetPatronymic;
 
-            var flag = course.Equals(course);
+            var getcoursefromgroup = obj.GetCourseFromGroup;
+
+            var flag = patronymic.Equals(patronymic);
+
+            var hashcode = obj.GetHashCode();
             
-            Console.WriteLine($"{course} {flag}");
+            Console.WriteLine($"{patronymic} {getcoursefromgroup} {flag} {hashcode}");
         }
     }
 }
