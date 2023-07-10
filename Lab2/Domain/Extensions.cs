@@ -9,9 +9,9 @@ public static class Extensions
     
     private static void CheckingElements<T>(
         this IEnumerable<T> values,
-        IEqualityComparer<T> equalityComparer)
+        IEqualityComparer<T> comparer)
     {
-        if (values.Distinct(equalityComparer).Count() != values.Count())
+        if (values.Distinct(comparer).Count() != values.Count())
         {
             throw new ArgumentException("Elements are repeated", nameof(values));
         }
@@ -20,23 +20,23 @@ public static class Extensions
     public static IEnumerable<IEnumerable<T>> GetCombinations<T>(
         IEnumerable<T>? _array, List<T> combinations, int k, int start)
     {
-        List<IEnumerable<T>> resultList = new List<IEnumerable<T>>();
+        List<IEnumerable<T>> result = new List<IEnumerable<T>>();
         
         if (combinations.Count == k)
         {
-            resultList.Add(combinations.ToList()); // ToList - он возвращает List<T> который содержит элементы из входной последовательности
+            result.Add(combinations.ToList()); // ToList - он возвращает List<T> который содержит элементы из входной последовательности
         }
         else
         {
             for (var i = start; i < _array.Count(); i++)
             {
                 combinations.Add(_array.ElementAt(i)); // ElementAt - возвращает элемент по указанному индексу в последовательности.
-                resultList.AddRange(GetCombinations(_array, combinations, k, i)); // AddRange - добавляет элементы указанной коллекции в конец списка List<T>
+                result.AddRange(GetCombinations(_array, combinations, k, i)); // AddRange - добавляет элементы указанной коллекции в конец списка List<T>
                 combinations.RemoveAt(combinations.Count - 1); // RemoveAt - удаляет элемент списка List<T> с указанным индексом.
             }
         }
 
-        return resultList;
+        return result;
     }
     
     public static IEnumerable<IEnumerable<T>> GenerateCombinations<T>(
@@ -103,28 +103,31 @@ public static class Extensions
     }
     
     private static IEnumerable<IEnumerable<T>> GetPermutations<T>(
-        IEnumerable<T> iterableObject)
+        IEnumerable<T> array)
     {
-        List<IEnumerable<T>> resultList = new List<IEnumerable<T>>();
+        List<IEnumerable<T>> result = new List<IEnumerable<T>>();
 
-        if (iterableObject.Count() == 1)
+        if (array.Count() == 1)
         {
-            return new List<IEnumerable<T>>() { iterableObject };
+            return new List<IEnumerable<T>>()
+            {
+                array
+            };
         }
 
-        for (int i = 0; i < iterableObject.Count(); i++)
+        for (int i = 0; i < array.Count(); i++)
         {
-            var element = iterableObject.ElementAt(i); // ElementAt - возвращает элемент по указанному индексу в последовательности.
-            var remainingElements = iterableObject.Take(i).Concat(iterableObject.Skip(i + 1)); // Take - возвращает указанное число подряд идущих элементов с начала последовательности.
+            var element = array.ElementAt(i); // ElementAt - возвращает элемент по указанному индексу в последовательности.
+            var remainingElements = array.Take(i).Concat(array.Skip(i + 1)); // Take - возвращает указанное число подряд идущих элементов с начала последовательности.
             var permutationsOfRemaining = GetPermutations<T>(remainingElements);
 
             foreach (var permutation in permutationsOfRemaining)
             {
-                resultList.Add(new List<T>() { element }.Concat(permutation));
+                result.Add(new List<T>() { element }.Concat(permutation));
             }
         }
 
-        return resultList;
+        return result;
     }
     
     public static IEnumerable<IEnumerable<T>> GeneratePermutations<T>(
